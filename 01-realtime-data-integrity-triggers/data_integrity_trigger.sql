@@ -64,3 +64,4 @@ orders table was 10033 rows and increased to 12036 after order_items was updated
 -- Records AFTER INSERT INTO order_items : 12,036 rows
 -- BEFORE Max(created_at): 2013-12-31 23:22:54
 -- AFTER Max(created_at):  2014-02-28 23:40:45
+
