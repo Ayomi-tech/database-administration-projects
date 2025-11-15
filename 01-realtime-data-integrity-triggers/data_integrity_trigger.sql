@@ -16,8 +16,7 @@ CREATE TABLE orders (
     PRIMARY KEY (order_id)
 );
 
-
--- Back polulating the new created orders table
+-- Creating a trigger to update the orders table whenever new records are inserted into the order_items table.
 INSERT INTO orders
 SELECT 
       order_id,
@@ -33,9 +32,8 @@ SELECT
 FROM order_items
 GROUP BY order_id
 ORDER BY order_id ;
-
-
--- Setting up AUTOMATION to update orders table whenever order_items table got a new data;  
+ 
+-- Setting up automation to update the orders table whenever new rows are inserted into the order_items table.
 CREATE 
     TRIGGER  insert_new_orders
  AFTER INSERT ON order_items FOR EACH ROW 
