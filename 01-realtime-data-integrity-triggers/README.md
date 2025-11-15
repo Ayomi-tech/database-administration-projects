@@ -1,44 +1,74 @@
 # Project 01: Real-Time Data Integrity & Aggregation using Triggers
 
-## The objective of this project was to establish an automated, real-time mechanism to maintain a simplified Summary Table (orders) by aggregating data from a complex Transactional Table (order_items).
+## This project implements an automated real-time mechanism to maintain a simplified 'orders' summary table by aggregating data from the transactional 'order_items' table. The trigger-based design ensures that aggregated order metrics remain immediately up to date without relying on batch jobs, improving both data freshness and analytical query performance.
 
-This technique ensures that the orders table is always current for faster analytical queries, eliminating the need for periodic batch loads, thus improving data freshness and query performance.
+## Technologies Used
+- **Database:** MySQL  
+- **Concepts:** DDL, DML, Triggers, Aggregation, Data Integrity
 
-### Technologies Used
-- Database: MySQL (Used for this implementation)
 
-- Concepts: Data Definition Language (DDL), Data Manipulation Language (DML), Database Triggers, Data Aggregation.
+## Problem & Motivation
 
-### The Problem and Solution:
 ### The Challenge
-We needed a consolidated view of each customer order, summarizing key metrics (total price, number of items, primary product ID) from the detailed, row-level order_items table. A standard batch job would introduce latency, while manual updates are error-prone.
+Analytical queries needed a consolidated view of orders—total price, number of items, and primary product ID, but the 'order_items' table stores highly granular, row-level data.  
+Traditional batch pipelines introduced latency, and manual updates were error-prone.
 
-### The Solution: AFTER INSERT TRIGGER
-The solution uses a MySQL Trigger associated with the order_items table. This trigger fires immediately after any new record is inserted into order_items.
+### The Objective
+Automatically maintain a clean, aggregated record for each order in real time as new 'order_items' records arrive.
 
-The core efficiency comes from the combined use of the trigger and the REPLACE INTO command.
-- Trigger Logic: The trigger uses the new order_id (WHERE order_id = new.order_id) to aggregate the full order data from order_items.
+## Solution: AFTER INSERT Trigger + REPLACE INTO
 
-- REPLACE INTO: This command is crucial. If an existing order_id is updated in the source table (or if we insert a new
-  item for an existing order), REPLACE INTO ensures the existing row in the orders table
-  The table is updated with the fresh summary data, avoiding duplicate entries and maintaining data integrity.
+A MySQL **AFTER INSERT** trigger on 'order_items' performs live aggregation of all rows belonging to the affected 'order_id'.
 
-### Implementation: Files and Key Commands
-The full implementation is contained in the data_integrity_trigger.sql file.
+Key design elements:
 
-Key SQL Components:
-1. Table Creation (orders): Defines the structure of the final, aggregated table.
-2. Back-Population: An initial, one-time insert to load all existing historical data from order_items into the new orders table.
-3. Automation Trigger: The central piece of logic, ensuring data consistency on every new transactional row.
+### 🔹 Trigger Logic
+- When a new row is inserted into 'order_items', the trigger queries all items for that order ('WHERE order_id = NEW.order_id').
+- It recalculates order-level metrics (item count, total price, primary product).
 
-### Results and Validation
-The automation was validated by confirming the immediate and accurate update of the summary table after inserting new transactional data.
+### 🔹 Why REPLACE INTO?
+'REPLACE INTO' ensures the summary table is always up to date by:
+- Inserting the row if it does not exist.
+- Automatically deleting the old version and inserting the updated one if it exists.
+
+This eliminates:
+- Duplicate order summaries  
+- The need to check whether the order already exists  
+- Conditional logic inside the trigger
+
+## Implementation Details
+
+All SQL is contained in **'data_integrity_trigger.sql'**, including:
+
+### 1. Summary Table Creation ('orders')
+Defines order-level fields such as:
+- 'order_id'
+- 'number_of_items'
+- 'total_amount'
+- 'primary_product_id'
+- 'created_at'
+
+### 2. Backfill Step (Historical Load)
+A one-time insert aggregates all existing records from 'order_items'.
+
+### 3. Real-Time Trigger
+Ensures the 'orders' table stays in sync for every new insert into 'order_items'.
+
+## Results & Validation
+
+To confirm correctness, new rows were inserted into 'order_items' and the 'orders' table was inspected before and after trigger execution:
+
+| **Metric**                 | **Before Insert**         | **After Insert (Trigger Fired)** |
+|---------------------------|---------------------------|----------------------------------|
+| Total Rows in 'orders'    | 10,033                    | 12,036                           |
+| Latest 'created_at'       | 2013-12-31 23:22:54        | 2014-02-28 23:40:45              |
+
+This validated that the trigger updated the summary table in real time without requiring any manual refresh.
+
+## Summary
+This project demonstrates how MySQL triggers can maintain real-time, aggregated reporting tables without batch jobs—improving data accuracy, reducing operational complexity, and enabling faster analytics.
 
 
-| **Metric**                 | **Before Insert into `order_items`** | **After Insert into `order_items` (Trigger Fired)** |
-| -------------------------- | ------------------------------------ | --------------------------------------------------- |
-| **Total Rows in `orders`** | 10,033 rows                          | 12,036 rows                                         |
-| **Latest `created_at`**    | 2013-12-31 23:22:54                  | 2014-02-28 23:40:45                                 |
 
 
 
