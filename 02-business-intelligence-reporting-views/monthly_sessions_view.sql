@@ -8,7 +8,7 @@ CREATE TABLE website_sessions (
     created_at DATETIME,
     user_id BIGINT,
     is_repeat_session INT,
-    utm_scorce VARCHAR(50),
+    utm_source VARCHAR(50),
     utm_campaign VARCHAR(50),
     utm_content VARCHAR(50),
     device_type VARCHAR(50),
@@ -23,18 +23,13 @@ CREATE VIEW marketing_monthly_sessions AS
     SELECT 
         YEAR(created_at) AS year,
         MONTH(created_at) AS month,
-        utm_scorce,
+        utm_source,
         utm_campaign,
         COUNT(website_session_id) AS number_of_sessions
     FROM
         website_sessions
     WHERE
-        utm_scorce IS NOT NULL
+        utm_source IS NOT NULL
             OR utm_campaign IS NOT NULL
     GROUP BY 1 , 2 , 3 , 4;
-
-
-
-
-
 
