@@ -6,13 +6,13 @@ USE mavenbearbbuilders ;
 
 -- Creation of orders table 
 CREATE TABLE orders (
-    order_id BIGINT,
-    created_at DATETIME,
-    website_session_id BIGINT,
-    primary_product_id BIGINT,
-    items_purchased BIGINT,
-    price_usd DECIMAL(6 , 2 ),
-    cogs_usd DECIMAL(6 , 2 ),
+    order_id BIGINT NOT NULL,
+    created_at DATETIME NOT NULL,
+    website_session_id BIGINT NOT NULL,
+    primary_product_id BIGINT NOT NULL,
+    items_purchased BIGINT NOT NULL,
+    price_usd DECIMAL(6 , 2 ) NOT NULL,
+    cogs_usd DECIMAL(6 , 2 ) NOT NULL,
     PRIMARY KEY (order_id)
 );
 
