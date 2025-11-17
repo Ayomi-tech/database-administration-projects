@@ -1,0 +1,5 @@
+---Starting Full Backup for candystore as Mon Nov 17 13:44:41 CET 2025---
+Dump Created Successfully: /Users/yoursername/scriptsfolder/db_admin/backups/candystore_FULL_20251117_134441.sql
+Backup Compressed to /Users/yoursername/scriptsfolder/db_admin/backups/candystore_FULL_20251117_134441.sql.gz
+Running cleanup (deleting backups older than 7 days)...
+Cleanup Complete.
