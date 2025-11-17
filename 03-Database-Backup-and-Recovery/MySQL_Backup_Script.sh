@@ -1,11 +1,11 @@
 #!/bin/bash
 # MySQL Script for Daily Full Database Backup
-# Database: DB_Admin
+# Database: candystore
 # Frequency: Daily (Target RPO: 15 minutes, foundation for recovery)
 
 
 # --- Configuration ---
-DB_NAME="DB_Admin"
+DB_NAME="candystore" 
 RETENTION_DAYS=7  #Keep backups for 7 days
 BACKUP_PATH="$HOME/scripts/db_admin/backups"
 DATE_STAMP=$(date +%Y%m%d_%H%M%S)
