@@ -14,7 +14,7 @@ COMPRESSED_FILE="${BACKUP_FILE}.gz"
 LOG_FILE="${BACKUP_PATH}/backup_log.txt"
 MYSQLDUMP_PATH="/usr/local/opt/mysql-client/bin/mysqldump"
 
-# -- Script Logic --
+# --- Script Logic ---
 
 #1. Check and Create Backup Directory
 if ! mkdir -p "$BACKUP_PATH"; then
