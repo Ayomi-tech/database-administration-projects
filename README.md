@@ -55,7 +55,17 @@ A secure, pre-aggregated analytics view that surfaces monthly traffic volume by 
 - Ensures consistency in reporting  
 - Delivers BI-ready metrics  
 
+### **3️⃣ Database Backup & Recovery Automation (Candystore Database)**
+A production-oriented backup & recovery workflow that performs secure, automated daily full backups of the `candystore` MySQL database.
 
+**Highlights**
+- Automated daily compressed backups  
+- Secure credential management (no passwords in scripts)  
+- 7-day rotating retention with automatic cleanup  
+- Fully tested restore into a new recovery database  
+- Foundation for future RPO improvements (binlog / differential backups)
+
+This project demonstrates operational excellence and real-world disaster recovery readiness.
 
 ---
 
