@@ -84,7 +84,7 @@ This project demonstrates operational excellence and real-world disaster recover
 ## 🚀 Why These Projects Matter
 
 Modern organizations depend on fast, reliable, and secure data systems.  
-This portfolio shows the capability to:
+This portfolio shows my capability to:
 
 - Build maintainable SQL structures  
 - Automate workflows that previously required manual intervention  
