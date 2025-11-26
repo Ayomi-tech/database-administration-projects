@@ -10,7 +10,7 @@ WHERE DATE(created_at) BETWEEN startdate AND enddate ;
 END //
 DELIMITER ;
 
-
+call order_performance ('2013-11-01', '2013-12-31');
 
 -- Total Films and Store Data
 DELIMITER //
